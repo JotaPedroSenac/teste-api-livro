@@ -19,7 +19,12 @@ const LivroModel = sequelize.define('LivroModel', {
     },
     titulo: {
         type: DataTypes.STRING(100),
-        allowNull: false
+        allowNull: false,
+        validate: {
+            len: {
+                args: [2, 200]
+            }
+        }
     },
     autor: {
         type: DataTypes.STRING(100),

@@ -43,7 +43,7 @@ describe('Livro API', () => {
         });
     });
 
-   /*  describe('Validação de campos', () => {
+    describe('Validação de campos', () => {
         test('❌ Não deve criar livro com campos vazios', async () => {
             const response = await req(app).post('/livros').send({
                 titulo: '',
@@ -122,7 +122,7 @@ describe('Livro API', () => {
         });
     });
 
-    describe('Validação contra SQL Injection', () => {
+   /* describe('Validação contra SQL Injection', () => {
         test('❌ Não deve aceitar SQL injection no título', async () => {
             const response = await req(app).post('/livros').send({
                 titulo: "Robert'); DROP TABLE livros;--",
