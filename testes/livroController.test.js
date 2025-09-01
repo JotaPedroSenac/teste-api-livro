@@ -122,7 +122,7 @@ describe('Livro API', () => {
         });
     });
 
-   /* describe('Validação contra SQL Injection', () => {
+    describe('Validação contra SQL Injection', () => {
         test('❌ Não deve aceitar SQL injection no título', async () => {
             const response = await req(app).post('/livros').send({
                 titulo: "Robert'); DROP TABLE livros;--",
@@ -189,7 +189,7 @@ describe('Livro API', () => {
         });
     });
 
-    describe('Listagem e Busca', () => {
+    /*describe('Listagem e Busca', () => {
         test('✅ Deve listar todos os livros', async () => {
             const response = await req(app).get('/livros');
             expect(response.statusCode).toBe(200);

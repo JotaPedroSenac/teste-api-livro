@@ -44,6 +44,17 @@ class livroService {
             throw new Error('Gênero inválido');
         }
 
+        // impede sql injection em título e autor. Os outros campos já impedem com as tipagens definidas.
+        const sqlInjectionRegex = /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|;|--)\b)/i;
+
+        if(sqlInjectionRegex.test(titulo)){
+            throw new Error('Título inválido');
+        }
+
+        if(sqlInjectionRegex.test(autor)){
+            throw new Error('Autor inválido');
+        }
+
         const existe = await livroModel.findOne({
             where: {
                 titulo

@@ -16,6 +16,9 @@ const livroController = {
                 || error.message.includes('Título deve ter pelo menos 2 caracteres')
                 || error.message.includes('Gênero inválido')
                 || error.message.includes('Preço deve ser um número')
+                || error.message.includes('Título inválido')
+                || error.message.includes('Autor inválido')
+
                 ? 400 : 500
             return res.status(code).json({
                 msg: error.message
