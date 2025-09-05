@@ -95,6 +95,28 @@ class livroService {
 
         return listarPorId;
     }
+
+    //atualizar
+    static async atualizar(id, dados){
+        const existe = await livroModel.findByPk(id);
+
+        //verificar se existe
+        if(!existe){
+            throw new Error('Livro não encontrado');
+        }
+        
+        //pegar os dados
+        const { titulo, autor, ano_publicacao, genero, preco } = dados;
+
+        if(!titulo || !autor || !ano_publicacao || !genero || !preco){
+            throw new Error('Dados inválidos para atualização');
+        }
+
+
+        await existe.update({ titulo, autor, ano_publicacao, genero, preco });
+        return existe;
+    }
+
 }
 
 module.exports = livroService;

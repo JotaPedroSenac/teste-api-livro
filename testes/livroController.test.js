@@ -242,7 +242,24 @@ describe('Livro API', () => {
     });
 });
 
-   /* describe('Atualização', () => {
+    describe('Atualização', () => {
+
+          let livroId;
+
+    beforeEach(async () => {
+        await Livro.destroy({ where: {}, truncate: true });
+
+        const livro = await Livro.create({
+            titulo: 'O Senhor dos Anéis',
+            autor: 'J.R.R. Tolkien',
+            ano_publicacao: 1954,
+            genero: 'Fantasia',
+            preco: 59.9
+        });
+
+        livroId = livro.id;
+    });
+    
         test('✅ Deve atualizar livro por ID', async () => {
             const response = await req(app).put(`/livros/${livroId}`).send({
                 titulo: 'O Hobbit',
@@ -283,7 +300,7 @@ describe('Livro API', () => {
             expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
         });
     });
-
+/*
     describe('Exclusão', () => {
         test('✅ Deve deletar livro por ID', async () => {
             const response = await req(app).delete(`/livros/${livroId}`);

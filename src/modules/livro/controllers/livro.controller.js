@@ -84,6 +84,26 @@ const livroController = {
                 msg: error.message
             })
         }
+    },
+
+    //atualizar
+    async atualizar(req, res){
+        try {
+            const livroAtualizado = await livroService.atualizar(req.params.livroId, req.body);
+            return res.status(200).json({
+                msg: 'Livro atualizado com sucesso',
+                livro: livroAtualizado
+            })
+        } catch (error) {
+            if(error.message === 'Livro não encontrado'){
+                return res.status(404).json({
+                    msg: error.message
+                })
+            }
+            return res.status(400).json({
+                msg: error.message
+            })
+        }
     }
 }
 

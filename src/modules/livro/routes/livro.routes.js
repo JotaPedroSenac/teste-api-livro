@@ -9,6 +9,8 @@ router.get('/livros', livroController.listar);
 //listar o livro por nome
 router.get('/livros/busca', livroController.listarPorNome);
 //listar livro por id
-router.get('/livros/:livroId', livroController.listarPorId)
+router.get('/livros/:livroId', livroController.listarPorId);
+//atualizar
+router.put('/livros/:livroId', livroController.atualizar);
 
 module.exports = router;
