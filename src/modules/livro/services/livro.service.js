@@ -1,9 +1,13 @@
+const { Op } = require('sequelize');
 const livroModel = require('../models/livro.model');
 
 class livroService {
     //cadastrar livros
     static async cadastrar(dados) {
+
+        //corpo da requisição
         const { titulo, autor, ano_publicacao, genero, preco } = dados;
+
         if (!titulo || !autor || !ano_publicacao || !genero || !preco) {
             throw new Error('Todos os campos são obrigatórios');
         }
@@ -16,7 +20,7 @@ class livroService {
             throw new Error('Preço deve ser maior que zero');
         }
 
-        if(typeof preco !== 'number'){
+        if (typeof preco !== 'number') {
             throw new Error('Preço deve ser um número');
         }
 
@@ -40,18 +44,18 @@ class livroService {
             "Infantil",
             "Didático"];
 
-        if(!generoValidos.includes(genero)){
+        if (!generoValidos.includes(genero)) {
             throw new Error('Gênero inválido');
         }
 
         // impede sql injection em título e autor. Os outros campos já impedem com as tipagens definidas.
         const sqlInjectionRegex = /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|;|--)\b)/i;
 
-        if(sqlInjectionRegex.test(titulo)){
+        if (sqlInjectionRegex.test(titulo)) {
             throw new Error('Título inválido');
         }
 
-        if(sqlInjectionRegex.test(autor)){
+        if (sqlInjectionRegex.test(autor)) {
             throw new Error('Autor inválido');
         }
 
@@ -65,6 +69,31 @@ class livroService {
 
         const novoLivro = await livroModel.create({ titulo, autor, ano_publicacao, genero, preco });
         return novoLivro;
+    }
+
+    //listar livros
+    static async listar() {
+        const livros = await livroModel.findAll();
+        return livros;
+    }
+
+    //listar por nome
+    static async listarPorNome(titulo) {
+        const listarPorNome = await livroModel.findOne({
+            where: {
+                //conter a parte da frase em qualquer lugar do título
+                titulo: {[Op.like]: `%${titulo}%`}
+            }
+        })
+
+        return listarPorNome;
+    }
+
+    //listar por id
+    static async listarPorId(id){
+        const listarPorId = await livroModel.findByPk(id)
+
+        return listarPorId;
     }
 }
 

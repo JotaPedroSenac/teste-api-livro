@@ -14,7 +14,7 @@ afterAll(async () => {
 describe('Livro API', () => {
     let livroId;
 
-     // Limpar todos os livros antes de cada teste
+    // Limpar todos os livros antes de cada teste
     beforeEach(async () => {
         await Livro.destroy({ where: {}, truncate: true });
     });
@@ -189,42 +189,60 @@ describe('Livro API', () => {
         });
     });
 
-    /*describe('Listagem e Busca', () => {
-        test('✅ Deve listar todos os livros', async () => {
-            const response = await req(app).get('/livros');
-            expect(response.statusCode).toBe(200);
-            expect(Array.isArray(response.body)).toBe(true);
-            expect(response.body.length).toBeGreaterThan(0);
+    describe('Listagem e Busca', () => {
+
+        let livroId;
+
+        beforeEach(async () => {
+            await Livro.destroy({ where: {}, truncate: true });
+
+            const livro = await Livro.create({
+                titulo: 'O Senhor dos Anéis',
+                autor: 'J.R.R. Tolkien',
+                ano_publicacao: 1954,
+                genero: 'Fantasia',
+                preco: 59.9
+            });
+
+            livroId = livro.id;
         });
 
-        test('✅ Deve buscar livro por nome', async () => {
-            const response = await req(app).get('/livros/busca?titulo=Senhor');
-            expect(response.statusCode).toBe(200);
-            expect(response.body.livros[0].titulo).toMatch(/Senhor/);
-            expect(response.body).toHaveProperty('msg', 'Livro encontrado');
-        });
 
-        test('❌ Deve retornar 404 se livro não encontrado na busca por nome', async () => {
-            const response = await req(app).get('/livros/busca?titulo=Inexistente');
-            expect(response.statusCode).toBe(404);
-            expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
-        });
-
-        test('✅ Deve buscar livro por ID', async () => {
-            const response = await req(app).get(`/livros/${livroId}`);
-            expect(response.statusCode).toBe(200);
-            expect(response.body.livro.id).toBe(livroId);
-            expect(response.body).toHaveProperty('msg', 'Livro encontrado');
-        });
-
-        test('❌ Deve retornar 404 se ID inexistente', async () => {
-            const response = await req(app).get('/livros/9999');
-            expect(response.statusCode).toBe(404);
-            expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
-        });
+    test('✅ Deve listar todos os livros', async () => {
+        const response = await req(app).get('/livros');
+        expect(response.statusCode).toBe(200);
+        expect(Array.isArray(response.body)).toBe(true);
+        expect(response.body.length).toBeGreaterThan(0);
     });
 
-    describe('Atualização', () => {
+    test('✅ Deve buscar livro por nome', async () => {
+        const response = await req(app).get('/livros/busca?titulo=Senhor');
+        expect(response.statusCode).toBe(200);
+        expect(response.body.livros[0].titulo).toMatch(/Senhor/);
+        expect(response.body).toHaveProperty('msg', 'Livro encontrado');
+    });
+
+    test('❌ Deve retornar 404 se livro não encontrado na busca por nome', async () => {
+        const response = await req(app).get('/livros/busca?titulo=Inexistente');
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
+    });
+
+    test('✅ Deve buscar livro por ID', async () => {
+        const response = await req(app).get(`/livros/${livroId}`);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.livro.id).toBe(livroId);
+        expect(response.body).toHaveProperty('msg', 'Livro encontrado');
+    });
+
+    test('❌ Deve retornar 404 se ID inexistente', async () => {
+        const response = await req(app).get('/livros/9999');
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
+    });
+});
+
+   /* describe('Atualização', () => {
         test('✅ Deve atualizar livro por ID', async () => {
             const response = await req(app).put(`/livros/${livroId}`).send({
                 titulo: 'O Hobbit',
