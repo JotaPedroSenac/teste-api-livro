@@ -12,5 +12,7 @@ router.get('/livros/busca', livroController.listarPorNome);
 router.get('/livros/:livroId', livroController.listarPorId);
 //atualizar
 router.put('/livros/:livroId', livroController.atualizar);
+//excluir
+router.delete('/livros/:livroId', livroController.excluir)
 
 module.exports = router;

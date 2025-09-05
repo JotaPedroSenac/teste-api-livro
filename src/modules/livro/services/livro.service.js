@@ -117,6 +117,19 @@ class livroService {
         return existe;
     }
 
+    //excluir 
+    static async excluir(id){
+        const existe = await livroModel.findByPk(id);
+
+        //verificar se existe
+        if(!existe){
+            throw new Error('Livro não encontrado');
+        }
+
+        await existe.destroy();
+        return existe;
+    }
+
 }
 
 module.exports = livroService;
